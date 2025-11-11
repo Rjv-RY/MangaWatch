@@ -1,0 +1,2 @@
+ALTER TABLE manga
+	ALTER COLUMN description TYPE TEXT;

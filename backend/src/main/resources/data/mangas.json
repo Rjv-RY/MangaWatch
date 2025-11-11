@@ -1,0 +1,62 @@
+[
+	{
+	    "dexId": "3d4476d4-5fdd-4d72-bb8a-e279b6006255",
+	    "title": "Ayashi Michizure",
+	    "author": "Unknown",
+	    "year": 2025,
+	    "status": "Ongoing",
+	    "rating": null,
+	    "description": "",
+	    "coverUrl": null,
+	    "genres": ["Animals", "Boys' Love", "Mystery"],
+	    "altTitles": ["あやし道連れ 分冊版", "Cá Dẫn Đường"]
+	  },
+	  {
+	    "dexId": "05c29e85-71c1-4f78-95cd-a03e68d9523c",
+	    "title": "Worst Gaiden Mr. Zetton",
+	    "author": "Unknown",
+	    "year": 2020,
+	    "status": "Ongoing",
+	    "rating": null,
+	    "description": "After years of studying, Hanazawa Saburou, AKA Suzuran's legendary Zetton, has finally become a high school teacher. But on his first day at work, the principal tells him he was actually hired not to teach, but to make the students of his homeroom class drop out of school?!",
+	    "coverUrl": null,
+	    "genres": ["Action", "Comedy", "Mafia", "School Life", "Delinquents"],
+	    "altTitles": ["«Отбросы» гайдэн — Мистер Зеттон", "Worst Side Story: Mr. Zetton", "WORST外伝 ゼットン先生"]
+	  },
+	  {
+	    "dexId": "4bb7eac3-da10-4873-ae04-1157dc08b22d",
+	    "title": "Dragon Ball - Zeroverse (Doujinshi)",
+	    "author": "Unknown",
+	    "year": 1996,
+	    "status": "Hiatus",
+	    "rating": null,
+	    "description": "A few years have passed since Goku first met Uub, he's become satisfied that Uub is becoming stronger while he trains him so decides to take him to the next Tenkaichi Budokai tournament in order to test him. \n \nIn the background, a mysterious adversary from a different universe, Universe 0 (This was long before Dragon Ball Super) wants to return to our universe. In order to achieve that task, he requires the power of the Dragon Balls, and has revived Babidi in order to accomplish that goal. \n \nBabidi soon awakens the remnants of Majin Buu sleeping deep within Uub and turns him into his puppet. Now it's up to Goku and Co. to stop this new adversary from crossing over into their universe at all costs!",
+	    "coverUrl": null,
+	    "genres": ["Action", "Martial Arts", "Adventure", "Magic", "Doujinshi", "Drama", "Fantasy", "Aliens", "Supernatural"],
+	    "altTitles": ["Dragon Ball Tibetan Edition", "Lóngzhū xīzàng-ban"]
+	  },
+	  {
+	    "dexId": "0a580438-bc72-4503-940b-12a5da881b56",
+	    "title": "Kimi wa Yotsuba no Clover",
+	    "author": "Unknown",
+	    "year": 2024,
+	    "status": "Ongoing",
+	    "rating": null,
+	    "description": "Uichi was once popular, but now he is being bullied excessively. Then suddenly, his first love, Yotsuha, appears in front of him. What is this cute and brave girl's purpose…?",
+	    "coverUrl": null,
+	    "genres": ["Time Travel", "Psychological", "Romance", "Drama", "School Life", "Tragedy"],
+	    "altTitles": ["きみは四葉のクローバー", "You Are a Four-Leaf Clover", "恋人手中四叶草", "戀人手中四葉草", "Você é um Trevo de Quatro Folhas", "Cậu là cỏ 4 lá", "أنتِ زهرة الحظ"]
+	  },
+	  {
+	    "dexId": "d7f56ace-cd30-48b9-8b64-afeca0077fca",
+	    "title": "The Greatest Estate Developer",
+	    "author": "Unknown",
+	    "year": 2021,
+	    "status": "Completed",
+	    "rating": null,
+	    "description": "When civil engineering student Suho Kim falls asleep reading a fantasy novel, he wakes up as a character in the book.\n\n Suho is now in the body of Lloyd Frontera, a lazy noble who loves to drink, and whose family is in a mountain of debt. Using his engineering knowledge, Suho designs inventions to avert the terrible future that lies in wait for him. \n\nWith the help of a giant hamster, a knight, and the world's magic, can Suho dig his new family out of debt and build a better future?",
+	    "coverUrl": null,
+	    "genres": ["Reincarnation", "Monsters", "Action", "Long Strip", "Comedy", "Adventure", "Magic", "Isekai", "Fantasy", "Web Comic", "Adaptation", "Full Color"],
+	    "altTitles": ["역대급 영지 설계사", "The Greatest Estate Designer", "史上最高の領地設計士", "The World's Best Engineer", "史诗级领地设计师", "Система всемогущего дизайнера", "史詩級領地設計師", "Yeokdaegeum Yeongji Seolgyesa", "El Mejor Ingeniero del Mundo", "El Mejor Diseñador Inmobiliario", "MŚCICHUj", "দ্য গ্রেটেস্ট এস্টেট ডেভেলপার", "Bậc Thầy Thiết Kế Điền Trang"]
+	  }
+  ]

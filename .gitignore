@@ -1,0 +1,99 @@
+# --- OS stuff ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+__MACOSX/
+*.bak
+*.tmp
+*.old
+*.orig
+*.rej
+*.swp
+*.swo
+
+# --- env and secrets ---
+.env
+.env.*
+*.env
+*.local
+
+# --- logs ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Ide/editor settings ---
+.vscode/
+.idea/
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+.factorypath
+.settings/
+.springBeans
+.sts4-cache
+.apt_generated
+
+# --- node/frontend ---
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.parcel-cache/
+frontend/.next/
+frontend/.nuxt/
+frontend/.vite/
+frontend/.eslintcache
+frontend/build/
+frontend/yarn-error.log
+frontend/npm-debug.log
+frontend/pnpm-lock.yaml
+frontend/yarn.lock
+
+# --- java/springBoot/backend ---
+backend/target/
+backend/logs/
+backend/out/
+backend/.idea/
+backend/.vscode/
+backend/.settings/
+backend/bin/
+backend/.classpath
+backend/.project
+backend/.factorypath
+backend/*.log
+backend/.env*
+backend/.sts4-cache
+.mvn/wrapper/maven-wrapper.jar
+
+# --- build outputs (from any tool)---
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+dist/
+!**/src/main/**/dist/
+!**/src/test/**/dist/
+
+# --- Ide cache or metadata ---
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# --- misc ---
+HELP.md
+*.class
+*.jar
+*.war
+*.ear
+
+# --- exceptions (keeps source code builds) ---
+!**/src/main/**
+!**/src/test/**

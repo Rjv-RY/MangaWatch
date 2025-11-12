@@ -33,4 +33,9 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 ### Snippets
 
-![Mobile View](Screenshot
+PC View
+![PC View]()
+
+Mobile View (Navbar items become dowpdown)
+
+![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/Screenshot%202025-11-12%20182656.png)

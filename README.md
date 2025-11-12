@@ -43,6 +43,8 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 ## Instrcutions To Run
 
+Disclaimer: This needs you to run the Container, Backend and Frontend together to actually make the application work.
+
 Clone the Application
 ```bash
 git clone https://github.com/Rjv-RY/MangaWatch
@@ -72,4 +74,8 @@ npm run dev
 ## Special Thanks
 
 Special Thanks to the MangaDex API and its authors. It's great to work with if a little daunting in the start. The imports were smooth once I realized it's limitations and quirks.
+
+## Possible Future Features
+
+I plan to add Ratings and Reviews/Comments like Letterboxd has, to the application. But it's still a maybe.
 

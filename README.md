@@ -41,6 +41,35 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 ![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/Screenshot%202025-11-12%20182656.png)
 
-## Run Instrcutions
+## Instrcutions To Run
 
+Clone the Application
+```bash
+git clone https://github.com/Rjv-RY/MangaWatch
+```
+CD Into the application
+```
+cd MangaWatch
+```
+
+### Frontend Setup
+
+1. Go into the frontend directory
+```
+cd frontend
+```
+2. Install Dependencies
+```
+npm install
+```
+3. Run the Frontend
+```
+npm run dev
+```
+
+### Backend Setup continues in the Backend's Readme due to its complicated nature.
+
+## Special Thanks
+
+Special Thanks to the MangaDex API and its authors. It's great to work with if a little daunting in the start. The imports were smooth once I realized it's limitations and quirks.
 

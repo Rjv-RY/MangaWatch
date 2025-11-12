@@ -33,3 +33,4 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 ### Snippets
 
+![Mobile View](Screenshot

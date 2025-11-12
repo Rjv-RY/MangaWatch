@@ -12,7 +12,7 @@ The Repo/Directory is conveniently divided into /frontend and /backend for their
 
 ## Tech Stack
 
-Briefly the frontend is React and Vite with Tailwind, uses Axios and NodeJs of course. Lucide-React for the icons/svgs.
+Briefly, the frontend is React and Vite with Tailwind, uses Axios and NPM of course. Lucide-React for the icons/svgs.
 On the backend is Spring Boot (The starter) with PostgreSQL running in a docker container. JSON Dependencies and flywaydb for migrations.
 
 ## Features

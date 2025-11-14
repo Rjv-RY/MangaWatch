@@ -35,11 +35,11 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 **PC View**
 
-![PC View](https://github.com/Rjv-RY/MangaWatch/blob/main/Screenshot%202025-11-12%20182735.png)
+![PC View](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/Discover.png)
 
 **Mobile View (Navbar items become dowpdown)**
 
-![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/Screenshot%202025-11-12%20182656.png)
+![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/MobileView.png)
 
 ## Instrcutions To Run
 

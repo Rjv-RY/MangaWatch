@@ -11,7 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function AppRoutes() {
   const location = useLocation();
-  const state = location.state; // check if we came here from Discover
+  const state = location.state; // checks if we came here from Discover
   const background = state && state.background;
 
   return (
@@ -42,7 +42,7 @@ function AppRoutes() {
         </Route>
       </Routes>
 
-      {/* 👇 this renders the modal over the background */}
+      {/* render the modal over the background */}
       {background && (
         <Routes>
           <Route path="/discover/:id" element={<MangaPage />} />

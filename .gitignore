@@ -70,6 +70,7 @@ backend/.factorypath
 backend/*.log
 backend/.env*
 backend/.sts4-cache
+backend/src/main/resources/application.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # --- build outputs (from any tool)---

@@ -41,6 +41,8 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 ![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/MobileView.png)
 
+*(More Screenshots in Frontend ReadMe)*
+
 ## Instrcutions To Run
 
 Disclaimer: This needs you to run the Container, Backend and Frontend together to actually make the application work.

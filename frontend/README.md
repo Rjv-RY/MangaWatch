@@ -13,7 +13,7 @@ This page here shows some of the screenshots I took of the app and its parts.
 
 **Manga Page**
 
-![Manga Page]()
+![Manga Page](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/MangaPage.png)
 
 **Library Page**
 
@@ -25,11 +25,11 @@ This page here shows some of the screenshots I took of the app and its parts.
 
 **Mobile Menu**
 
-![Mobile Menu]()
+![Mobile Menu](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/MobileMenu.png)
 
 **Light Mode**
 
-![Light Mode]()
+![Light Mode](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/LightMode.png)
 
 **Home Page**
 

@@ -111,4 +111,4 @@ MANGADEX_USERNAME : yourusername
 - Check import status:
   http://localhost:8080/admin/import/status
 
-### 4. You're ready to integrate a frontend or continue development.
+## Finally, start the frontend in your IDE to see that the db populates the pages.

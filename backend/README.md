@@ -71,7 +71,7 @@ MANGADEX_CLIENT_SECRET : E3knHpCViDJZ84UPXN6IlvsdcRm48x4XF
 MANGADEX_PASSWORD : yourpassword
 MANGADEX_USERNAME : yourusername
 ```
-(these are all random, use your own secret, client id, username and password)
+(use your own secret, client id, username and password)
 - Restart the backend here, or run it if its not already running, same for container.
 - Now, before import ensure you have a stable internet connection, and do not stop the backend app or the docker container until the import is complete.
 - The methods/functions for importing the DB (and the subsequent transformation) are already in the code. 
@@ -83,7 +83,7 @@ MANGADEX_USERNAME : yourusername
   
   Check Status : ```GET http://localhost:8080/admin/import/status```
   
-  Resume Import : ```POST http://localhost:8080/admin/import/resume?cursor=2018-08-26T07:54:35``` (this stamp is here for reference/structure)
+  Resume Import : ```POST http://localhost:8080/admin/import/resume?cursor=2018-08-26T07:54:35``` (timestamp left here for reference/structure)
   
 - The mangadex API allows only somewhere around 9000 - 10000 entries to be fetched at once (limiting). So your import will stop somehwere around that.
 - Call the status endpoint, it will show you the timestamp of the last entry you called. We'll resume import entries from that timestamp.

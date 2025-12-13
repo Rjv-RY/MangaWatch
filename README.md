@@ -2,7 +2,7 @@
 
 ## What is MangaWatch?
 
-Made in the vein of something like Letterboxd and MAL but focused on Mangas, MangaWatch is a personal Manga Tracker. 
+Full-stack manga tracking application inspired by Letterboxd/MAL.
 Choose from a massive selection of Mangas in the Discover section, pick what titles you like and add them to your library. 
 Track your progress of that title in the Library.
 
@@ -10,13 +10,48 @@ Track your progress of that title in the Library.
 
 The Repo/Directory is conveniently divided into /frontend and /backend for their respective roles.
 
+## Project Highlights
+
+- Full-stack application with React frontend and Spring Boot backend
+- JWT-based authentication and protected routes
+- Handles ~87,000 manga entries imported from a third-party API
+- Batch import system with resume-from-cursor support
+- Pagination, filtering, and sorting at database level
+- PostgreSQL with Flyway migrations
+- Dockerized database setup
+
 ## Tech Stack
 
-Briefly, the frontend is React and Vite with Tailwind, uses Axios and NPM of course. Lucide-React for the icons/svgs.
-On the backend is Spring Boot (The starter) with PostgreSQL running in a docker container. JSON Dependencies and flywaydb for migrations.
+Frontend:
+- React (Vite)
+- Tailwind CSS
+- Axios
+- Lucide React
+
+Backend:
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- JWT Authentication
+- Flyway
+
+Database:
+- PostgreSQL (Docker)
+
+External APIs:
+- MangaDex API
 
 ## Features
 
+In-brief:
+- Browse and search a large manga catalog
+- Pagination, filtering, and sorting
+- Personal library with reading status
+- Secure authentication (JWT)
+- Light/Dark mode
+- Mobile-responsive UI
+
+Extended Look for those with time:
 The application has 3 main pages, Home (A page with popular genres and a search bar), Discover and Library. It also has Light and Dark modes, and supports/works on Mobile as well.
 
 Discover is the page which houses Manga entries (displays by Pagination), filters, genres (All genres form all mangas, none left behind), sorting (Alphabetically, by Author, by Date) etc.

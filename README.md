@@ -52,6 +52,7 @@ In-brief:
 - Mobile-responsive UI
 
 Extended Look for those with time:
+
 The application has 3 main pages, Home (A page with popular genres and a search bar), Discover and Library. It also has Light and Dark modes, and supports/works on Mobile as well.
 
 Discover is the page which houses Manga entries (displays by Pagination), filters, genres (All genres form all mangas, none left behind), sorting (Alphabetically, by Author, by Date) etc.

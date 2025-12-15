@@ -29,7 +29,7 @@ Responsible for authentication, manga catalog management, and batch importing da
 
 ## A Primer/What You'll need
 
-The Backend's the heart and soul of MangaWatch. It includes a batch import system and requires a few setup steps, which are documented below.
+The Backend's the core of MangaWatch. It includes a batch import system and requires a few setup steps, which are documented below.
 
 - Java installed(I use version 21.0.5).
 - An IDE you can use (I use Eclipse because Java but VSCode would work fine).

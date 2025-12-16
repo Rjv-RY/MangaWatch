@@ -63,7 +63,7 @@ public class ImportController {
                 ));
         }
         
-        log.info("Starting FULL import of all manga using cursor-based pagination");
+        log.info("Starting import of all manga using cursor-based pagination");
         importInProgress = true;
         
         // Run import in background thread
@@ -158,7 +158,7 @@ public class ImportController {
     
     /**
      * POST /admin/import/stop
-     * Request to stop the current import (graceful)
+     * Request to stop the current import
      * Note: Current batch will complete before stopping
      */
     @PostMapping("/stop")

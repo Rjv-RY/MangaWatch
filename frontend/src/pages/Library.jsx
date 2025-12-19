@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
+import { API_BASE } from "../config/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Star, Filter, X, ChevronDown } from "lucide-react";
 import { LibraryContext } from "../context/LibraryContext";
@@ -12,11 +13,7 @@ export default function Library() {
   const navigate = useNavigate();
   const { dexId } = useParams();
 
-  const { library, setLibrary } = useContext(LibraryContext);
-
-  useEffect(() => {
-    localStorage.setItem("library", JSON.stringify(library));
-  }, [library]);
+  const { library, setLibrary, loading } = useContext(LibraryContext);
 
   const STATUSES = [
     { value: "Reading", label: "Reading" },
@@ -67,8 +64,11 @@ export default function Library() {
     const token = localStorage.getItem("manga_token");
 
     try {
+      console.log(import.meta.env);
+      console.log(API_BASE);
+      console.log(import.meta.env.VITE_API_BASE_URL);
       const response = await fetch(
-        `http://localhost:8080/api/library/update-status/${id}`,
+        `${API_BASE}/api/library/update-status/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -95,20 +95,16 @@ export default function Library() {
     const token = localStorage.getItem("manga_token");
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/library/remove/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE}/api/library/remove/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.ok) {
         //removed successfully
         setLibrary((prev) => prev.filter((item) => item.id !== id));
-        // console.log("Removed title with id:", id);
       } else {
         console.error("Failed to remove manga:", response.status);
       }
@@ -166,7 +162,9 @@ export default function Library() {
       </div>
 
       {/* Empty State or Library Grid */}
-      {sortedLibrary.length === 0 ? (
+      {loading ? (
+        <div className="p-6">Loading library…</div>
+      ) : sortedLibrary.length === 0 ? (
         <EmptyLibrary />
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">

@@ -55,6 +55,7 @@ frontend/yarn-error.log
 frontend/npm-debug.log
 frontend/pnpm-lock.yaml
 frontend/yarn.lock
+frontend/.env
 
 # --- java/springBoot/backend ---
 backend/target/

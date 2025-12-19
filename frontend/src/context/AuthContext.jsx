@@ -12,8 +12,11 @@ export function AuthProvider({ children }) {
     const username = localStorage.getItem("manga_username");
     if (token && username) {
       setUser({ username, token });
-      setLoading(false);
+    } else {
+      console.error("No user found");
     }
+
+    setLoading(false);
   }, []);
 
   const login = (data) => {

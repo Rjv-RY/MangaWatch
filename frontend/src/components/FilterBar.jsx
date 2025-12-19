@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE } from "../config/api";
 import { ChevronDown, X } from "lucide-react";
 import { useDiscoverParams } from "../hooks/useDiscoverParams";
 import { useRef } from "react";
@@ -29,7 +30,7 @@ export default function FilterBar() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/manga/genres");
+        const response = await fetch(`${API_BASE}/api/manga/genres`);
         const genres = await response.json();
         setGenreOptions(genres); // Already sorted alphabetically from backend
         setIsLoadingGenres(false);

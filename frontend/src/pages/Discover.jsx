@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { API_BASE } from "../config/api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Star, ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
 import { LibraryContext } from "../context/LibraryContext.jsx";
@@ -40,7 +41,7 @@ export default function Discover() {
     params.set("page", String(page - 1));
     params.set("size", String(itemsPerPage));
 
-    const url = `http://localhost:8080/api/manga?${params.toString()}`;
+    const url = `${API_BASE}/api/manga?${params.toString()}`;
 
     //logging request temporarily to understand it
     console.groupCollapsed(
@@ -118,16 +119,13 @@ export default function Discover() {
     }
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/library/add/${manga.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/library/add/${manga.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (!res.ok) throw new Error("Failed to add manga");
       const savedEntry = await res.json();
@@ -152,15 +150,12 @@ export default function Discover() {
     if (!window.confirm("Remove this title from Library?")) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/library/remove/${manga.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/library/remove/${manga.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (!res.ok) throw new Error("Failed to remove manga");
       setLibrary((prev) => prev.filter((item) => item.id !== manga.id));

@@ -1,9 +1,9 @@
-# MangaWatch 
+# MangaWatch
 
 ## What is MangaWatch?
 
 Full-stack manga tracking application inspired by Letterboxd/MAL.
-Choose from a massive selection of Mangas in the Discover section, pick what titles you like and add them to your library. 
+Choose from a massive selection of Mangas in the Discover section, pick what titles you like and add them to your library.
 Track your progress of that title in the Library.
 
 ## Structure
@@ -23,12 +23,14 @@ The Repo/Directory is conveniently divided into /frontend and /backend for their
 ## Tech Stack
 
 Frontend:
+
 - React (Vite)
 - Tailwind CSS
 - Axios
 - Lucide React
 
 Backend:
+
 - Java 21
 - Spring Boot
 - Spring Data JPA
@@ -36,14 +38,17 @@ Backend:
 - Flyway
 
 Database:
+
 - PostgreSQL (Docker)
 
 External APIs:
+
 - MangaDex API
 
 ## Features
 
 In-brief:
+
 - Browse and search a large manga catalog
 - Pagination, filtering, and sorting
 - Personal library with reading status
@@ -60,8 +65,8 @@ The titles are fetched from the DB which has around 87,000+ individual manga tit
 So it has a wide variety ot titles and you'll 99/100 times find what you're looking for.
 
 Library is your personal list/storage of titles you are reading, plan to read or have read before, it's protected so you must log in to access the Library functionality.
-Creating an account is simple, just a Mail ID, Username and Password. The password is hashed of course, and the JSON Web Token is issued each time you login. 
-For security, the routes require a valid Token to add or delete entries as well so ONLY you can mess with your Library. 
+Creating an account is simple, just a Mail ID, Username and Password. The password is hashed of course, and the JSON Web Token is issued each time you login.
+For security, the routes require a valid Token to add or delete entries as well so ONLY you can mess with your Library.
 
 The application has fluent communication between frontend and backend. It may load some things optimistically but you'll get valid error logs if something breaks or fails.
 The backend has defined routes for importing the MangaDex database, it imports around 10,000 titles at a time, and updates those what already exist to accomodate for changes in status or description.
@@ -77,17 +82,20 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 ![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/MobileView.png)
 
-*(More Screenshots in Frontend ReadMe)*
+_(More Screenshots in Frontend ReadMe)_
 
 ## Instrcutions To Run
 
 Disclaimer: This needs you to run the Container, Backend and Frontend together to actually make the application work.
 
 Clone the Application
+
 ```bash
 git clone https://github.com/Rjv-RY/MangaWatch
 ```
+
 CD Into the application
+
 ```
 cd MangaWatch
 ```
@@ -95,14 +103,19 @@ cd MangaWatch
 ### Frontend Setup
 
 1. Go into the frontend directory
+
 ```
 cd frontend
 ```
+
 2. Install Dependencies
+
 ```
 npm install
 ```
+
 3. Run the Frontend
+
 ```
 npm run dev
 ```
@@ -116,4 +129,3 @@ Special Thanks to the MangaDex API and its authors. It's great to work with if a
 ## Possible Future Features
 
 I plan to add Ratings and Reviews/Comments like Letterboxd has, to the application. But it's still a maybe.
-

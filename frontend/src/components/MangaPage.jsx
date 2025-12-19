@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { API_BASE } from "../config/api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { X, Star, Plus, Trash2 } from "lucide-react";
 import { LibraryContext } from "../context/LibraryContext";
@@ -23,7 +24,7 @@ export default function MangaPage({ basePath = "/discover" }) {
     const fetchMangaDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8080/api/manga/${id}`);
+        const response = await fetch(`${API_BASE}/api/manga/${id}`);
         if (!response.ok) throw new Error("Failed to fetch manga details");
         const data = await response.json();
         setManga(data);
@@ -51,16 +52,13 @@ export default function MangaPage({ basePath = "/discover" }) {
     }
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/library/add/${manga.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/library/add/${manga.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (!res.ok) throw new Error("Failed to add manga");
       const savedEntry = await res.json();
@@ -85,15 +83,12 @@ export default function MangaPage({ basePath = "/discover" }) {
     if (!window.confirm("Remove this title from Library?")) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/library/remove/${manga.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/library/remove/${manga.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (!res.ok) throw new Error("Failed to remove manga");
       setLibrary((prev) => prev.filter((item) => item.id !== manga.id));
@@ -230,7 +225,7 @@ export default function MangaPage({ basePath = "/discover" }) {
                 <div className="pt-2">
                   {isInLibrary ? (
                     <button
-                      onClick={removeFromLibrary}
+                      onClick={() => removeFromLibrary(manga)}
                       className="flex items-center gap-2 px-6 py-3 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors font-medium"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -238,7 +233,7 @@ export default function MangaPage({ basePath = "/discover" }) {
                     </button>
                   ) : (
                     <button
-                      onClick={addToLibrary}
+                      onClick={() => addToLibrary(manga)}
                       className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
                     >
                       <Plus className="h-4 w-4" />

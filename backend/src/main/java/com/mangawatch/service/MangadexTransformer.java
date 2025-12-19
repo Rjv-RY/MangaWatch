@@ -46,7 +46,7 @@ public class MangadexTransformer {
         // year or release
         manga.setYear(attrs.getYear());
         
-        // status, capitalize first letter to match your format
+        // status, capitalize first letter to match format
         manga.setStatus(capitalizeStatus(attrs.getStatus()));
         
         // rating, always null for now (will calculate this later from user reviews)
@@ -71,7 +71,7 @@ public class MangadexTransformer {
      * build MangaDex cover url from manga ID and cover filename
      * format= https://uploads.mangadex.org/covers/{mangaId}/{coverFileName}
      * 
-     * return null if coverFileName is missing
+     * returns null if coverFileName is missing
      */
     private String buildCoverUrl(String mangaId, String coverFileName) {
         if (coverFileName == null || coverFileName.isBlank()) {

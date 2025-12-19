@@ -1,25 +1,32 @@
 import { createContext, useState, useEffect } from "react";
+import { API_BASE } from "../config/api";
+import { useAuth } from "./AuthContext";
 
 export const LibraryContext = createContext();
 
 export function LibraryProvider({ children }) {
+  const [loading, setLoading] = useState(true);
   const [library, setLibrary] = useState(() => {
     const saved = localStorage.getItem("library");
     return saved ? JSON.parse(saved) : [];
   });
 
+  const { user } = useAuth();
+
   useEffect(() => {
     const fetchLibrary = async () => {
-      const token = localStorage.getItem("manga_token");
-      if (!token) {
-        console.error("No token found in localStorage");
+      if (!user) {
+        setLibrary([]);
+        setLoading(false);
         return;
       }
 
       try {
-        const response = await fetch("http://localhost:8080/api/library", {
+        setLoading(true);
+
+        const response = await fetch(`${API_BASE}/api/library`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         });
 
@@ -41,15 +48,18 @@ export function LibraryProvider({ children }) {
 
         setLibrary(formatted);
       } catch (err) {
-        console.error("Error fetching library:", err);
+        console.error("Library: Error fetching library:", err);
+        setLibrary([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchLibrary();
-  }, [setLibrary]);
+  }, [user]);
 
   return (
-    <LibraryContext.Provider value={{ library, setLibrary }}>
+    <LibraryContext.Provider value={{ library, setLibrary, loading }}>
       {children}
     </LibraryContext.Provider>
   );

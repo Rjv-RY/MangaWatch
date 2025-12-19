@@ -153,7 +153,7 @@ public class MangadexImporter {
                         currentCursor = lastManga.getAttributes().getCreatedAt();
                         result.setLastCreatedAt(currentCursor);
                         offsetWithinBatch = 0; // Reset offset for new cursor window
-                        log.info("🔄 Moving to new cursor window: {}", currentCursor);
+                        log.info("Moving to new cursor window: {}", currentCursor);
                     }
                 }
                 
@@ -303,7 +303,7 @@ public class MangadexImporter {
         // Batch save to database
         if (!toSave.isEmpty()) {
             mangaRepository.saveAll(toSave);
-            log.info("💾 Saved batch of {} manga (new: {}, updated: {})", 
+            log.info("Saved batch of {} manga (new: {}, updated: {})", 
                 toSave.size(), result.getNewInserted(), result.getUpdated());
         }
     }

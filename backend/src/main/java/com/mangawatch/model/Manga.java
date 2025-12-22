@@ -3,6 +3,8 @@ package com.mangawatch.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
+
 @Entity
 @Table(name = "manga")
 public class Manga {
@@ -27,11 +29,13 @@ public class Manga {
 	    @ElementCollection(fetch = FetchType.EAGER)
 	    @CollectionTable(name = "manga_alt_titles", joinColumns = @JoinColumn(name = "manga_id"))
 	    @Column(name = "alt_title", columnDefinition = "TEXT")  // <-- force Hibernate to match DB column
+	    @BatchSize(size = 50)
 	    private List<String> altTitles;
 
 	    @ElementCollection(fetch = FetchType.EAGER)
 	    @CollectionTable(name = "manga_genres", joinColumns = @JoinColumn(name = "manga_id"))
 	    @Column(name = "genre")
+	    @BatchSize(size = 50)
 	    private List<String> genres;
 
 	    // getters & setters

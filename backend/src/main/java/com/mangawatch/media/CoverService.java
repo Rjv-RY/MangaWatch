@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.mangawatch.model.Manga;
 import com.mangawatch.repository.MangaRepository;
 
@@ -20,8 +22,14 @@ public class CoverService {
 	private final WebClient webClient;
 	
 	private final MangaRepository mangaRepository;
+	
+	private final Cache<String, CachedCover> cache = Caffeine.newBuilder()
+	        .maximumWeight(50_000_000) // 50MB total cache size
+	        .weigher((String key, CachedCover cover) -> cover.data.length)
+	        .expireAfterWrite(Duration.ofHours(1))
+	        .build();
 
-    private final Map<String, CachedCover> cache = new ConcurrentHashMap<>();
+//    private final Map<String, CachedCover> cache = new ConcurrentHashMap<>();
 	
     public CoverService(WebClient.Builder builder, MangaRepository mangaRepository) {
         this.webClient = builder
@@ -35,16 +43,14 @@ public class CoverService {
     }
     
     private ResponseEntity<byte[]> getCover(String dexId, String fileName) {
-
-        // 1. Validation
         if (!isValid(dexId, fileName)) {
             return ResponseEntity.badRequest().build();
         }
 
         String cacheKey = dexId + "/" + fileName;
 
-        // 2. Cache hit
-        CachedCover cached = cache.get(cacheKey);
+        // Check cache
+        CachedCover cached = cache.getIfPresent(cacheKey);
         if (cached != null) {
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(cached.contentType))
@@ -52,7 +58,7 @@ public class CoverService {
                     .body(cached.data);
         }
 
-        // 3. Cache miss → fetch from MangaDex
+        // Cache miss → fetch
         return fetchAndCache(dexId, fileName, cacheKey);
     }
     

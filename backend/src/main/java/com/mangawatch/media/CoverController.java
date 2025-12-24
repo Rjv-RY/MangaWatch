@@ -13,11 +13,8 @@ public class CoverController {
         this.coverService = coverService;
     }
 
-    @GetMapping("/{dexId}/{fileName}")
-    public ResponseEntity<byte[]> getCover(
-            @PathVariable String dexId,
-            @PathVariable String fileName
-    ) {
-        return coverService.getCover(dexId, fileName);
+    @GetMapping("/{mangaId}")
+    public ResponseEntity<byte[]> getCover(@PathVariable long mangaId) {
+        return coverService.getCoverByMangaId(mangaId);
     }
 }

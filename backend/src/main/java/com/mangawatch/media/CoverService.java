@@ -3,7 +3,12 @@ package com.mangawatch.media;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.mangawatch.model.Manga;
+import com.mangawatch.repository.MangaRepository;
+
+import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,16 +17,20 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CoverService {
 	
 	private final WebClient webClient;
+	
+	private final MangaRepository mangaRepository;
 
     private final Map<String, CachedCover> cache = new ConcurrentHashMap<>();
 	
-    public CoverService(WebClient.Builder builder) {
+    public CoverService(WebClient.Builder builder, MangaRepository mangaRepository) {
         this.webClient = builder
                 .baseUrl("https://uploads.mangadex.org")
                 .build();
+        
+        this.mangaRepository = mangaRepository;
     }
     
-    public ResponseEntity<byte[]> getCover(String dexId, String fileName) {
+    private ResponseEntity<byte[]> getCover(String dexId, String fileName) {
 
         // 1. Validation
         if (!isValid(dexId, fileName)) {
@@ -41,6 +50,29 @@ public class CoverService {
 
         // 3. Cache miss → fetch from MangaDex
         return fetchAndCache(dexId, fileName, cacheKey);
+    }
+    
+    private ParsedCover parseCoverUrl(String url) {
+        URI uri = URI.create(url);
+        String[] parts = uri.getPath().split("/");
+
+        String dexId = parts[2];
+        String fileName = parts[3];
+
+        return new ParsedCover(dexId, fileName);
+    }
+    
+    public ResponseEntity<byte[]> getCoverByMangaId(long mangaId) {
+
+        // 1. Lookup manga
+        Manga manga = mangaRepository.findById(mangaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        // 2. Extract dexId + fileName from stored coverUrl
+        ParsedCover cover = parseCoverUrl(manga.getCoverUrl());
+
+        // 3. Delegate to existing logic
+        return getCover(cover.dexId(), cover.fileName());
     }
     
     private ResponseEntity<byte[]> fetchAndCache(

@@ -116,9 +116,12 @@ public class CoverService {
     }
     
     private String inferContentType(String fileName) {
-        if (fileName.endsWith(".png")) return MediaType.IMAGE_PNG_VALUE;
-        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg"))
+        String lower = fileName.toLowerCase();
+
+        if (lower.endsWith(".png")) return MediaType.IMAGE_PNG_VALUE;
+        if (lower.endsWith(".jpg") || lower.endsWith(".jpeg"))
             return MediaType.IMAGE_JPEG_VALUE;
+
         return MediaType.APPLICATION_OCTET_STREAM_VALUE;
     }
 
@@ -128,9 +131,11 @@ public class CoverService {
         if (fileName.contains("..")) return false;
         if (fileName.contains("/")) return false;
 
-        return fileName.endsWith(".jpg")
-                || fileName.endsWith(".jpeg")
-                || fileName.endsWith(".png");
+        String lower = fileName.toLowerCase();
+
+        return lower.endsWith(".jpg")
+            || lower.endsWith(".jpeg")
+            || lower.endsWith(".png");
     }
     
 }

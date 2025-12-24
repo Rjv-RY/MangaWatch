@@ -26,6 +26,9 @@ public class CoverService {
     public CoverService(WebClient.Builder builder, MangaRepository mangaRepository) {
         this.webClient = builder
                 .baseUrl("https://uploads.mangadex.org")
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(5 * 1024 * 1024)) // 5MB limit
                 .build();
         
         this.mangaRepository = mangaRepository;

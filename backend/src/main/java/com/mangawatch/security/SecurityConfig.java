@@ -49,6 +49,7 @@ public class SecurityConfig {
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         			)
             .authorizeHttpRequests(auth -> auth
+            	.requestMatchers("/api/covers/**").permitAll()
             	.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers( "/api/**", "/api/manga/**", "/admin/import/**").permitAll() // allow H2
                 .anyRequest().permitAll()                 // protect everything else

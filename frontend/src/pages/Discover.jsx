@@ -186,7 +186,11 @@ export default function Discover() {
           >
             <div className="aspect-[9/10] overflow-hidden relative">
               <img
-                src={item.coverUrl || "/placeholder.svg"}
+                src={
+                  item.coverUrl
+                    ? `${API_BASE}/api/covers/${item.id}`
+                    : "/placeholder.svg"
+                }
                 alt={item.title}
                 className="h-full w-full object-cover transition-transform hover:scale-110"
               />

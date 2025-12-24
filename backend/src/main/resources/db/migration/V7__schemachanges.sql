@@ -8,3 +8,6 @@ CREATE TABLE IF NOT EXISTS manga_alt_titles (
     CONSTRAINT fk_manga_alt FOREIGN KEY (manga_id)
         REFERENCES manga (id) ON DELETE CASCADE
 );
+
+ALTER TABLE manga_alt_titles
+	ALTER COLUMN alt_title TYPE TEXT;

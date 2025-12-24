@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class CoverService {
 	
 	private final WebClient webClient;

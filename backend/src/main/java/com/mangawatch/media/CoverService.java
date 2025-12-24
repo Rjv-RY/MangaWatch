@@ -97,6 +97,8 @@ public class CoverService {
             String contentType = response.getHeaders().getContentType() != null
                     ? response.getHeaders().getContentType().toString()
                     : inferContentType(fileName);
+            
+            System.out.println("Cover filename = " + fileName);
 
             CachedCover cached = new CachedCover(
                     response.getBody(),

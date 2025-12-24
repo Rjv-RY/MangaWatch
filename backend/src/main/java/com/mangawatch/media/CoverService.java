@@ -2,6 +2,7 @@ package com.mangawatch.media;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -93,9 +94,9 @@ public class CoverService {
                 return ResponseEntity.notFound().build();
             }
 
-            String contentType = response.getHeaders()
-                    .getContentType()
-                    .toString();
+            String contentType = response.getHeaders().getContentType() != null
+                    ? response.getHeaders().getContentType().toString()
+                    : inferContentType(fileName);
 
             CachedCover cached = new CachedCover(
                     response.getBody(),
@@ -112,6 +113,13 @@ public class CoverService {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+    
+    private String inferContentType(String fileName) {
+        if (fileName.endsWith(".png")) return MediaType.IMAGE_PNG_VALUE;
+        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg"))
+            return MediaType.IMAGE_JPEG_VALUE;
+        return MediaType.APPLICATION_OCTET_STREAM_VALUE;
     }
 
     private boolean isValid(String dexId, String fileName) {

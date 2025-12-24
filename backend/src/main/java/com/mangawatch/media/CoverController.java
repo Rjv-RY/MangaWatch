@@ -1,5 +1,6 @@
 package com.mangawatch.media;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,10 @@ public class CoverController {
         this.coverService = coverService;
     }
 
-    @GetMapping("/{mangaId}")
+    @GetMapping(value = "/{mangaId}", produces = {
+            MediaType.IMAGE_JPEG_VALUE,
+            MediaType.IMAGE_PNG_VALUE
+    })
     public ResponseEntity<byte[]> getCover(@PathVariable long mangaId) {
         return coverService.getCoverByMangaId(mangaId);
     }

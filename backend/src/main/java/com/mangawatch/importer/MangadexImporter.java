@@ -356,7 +356,7 @@ public class MangadexImporter {
         try {
             List<String> idList = new ArrayList<>(authorIds);
             
-            log.debug("🔍 Fetching batch of {} authors...", idList.size());
+            log.debug("Fetching batch of {} authors...", idList.size());
             
             AuthorBatchWrapper response = apiClient.get()
                 .uri(uriBuilder -> {
@@ -373,7 +373,7 @@ public class MangadexImporter {
                 .block();
             
             if (response == null || response.getData() == null) {
-                log.error("❌ Author batch response was null");
+                log.error(" Author batch response was null");
                 return result;
             }
             
@@ -383,10 +383,10 @@ public class MangadexImporter {
                 }
             }
             
-            log.debug("✅ Mapped {} authors", result.size());
+            log.debug(" Mapped {} authors", result.size());
             
         } catch (Exception e) {
-            log.error("❌ Failed to batch fetch authors", e);
+            log.error("Failed to batch fetch authors", e);
         }
         
         return result;

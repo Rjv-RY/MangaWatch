@@ -4,6 +4,7 @@ package com.mangawatch.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import jakarta.annotation.PostConstruct;
@@ -50,6 +49,7 @@ public class SecurityConfig {
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         			)
             .authorizeHttpRequests(auth -> auth
+            	.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers( "/api/**", "/api/manga/**", "/admin/import/**").permitAll() // allow H2
                 .anyRequest().permitAll()                 // protect everything else
             )
@@ -72,7 +72,7 @@ public class SecurityConfig {
         var config = new org.springframework.web.cors.CorsConfiguration();
         
         //allow frontend origin
-        config.setAllowedOrigins(java.util.List.of("http://localhost:5173"));
+        config.setAllowedOrigins(java.util.List.of("http://localhost:5173", "https://manga-watch.vercel.app"));
         
         //allow all HTTP methods
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
@@ -81,7 +81,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(java.util.List.of("*"));
         
         // allow credentials (cookies, authorization headers)
-        config.setAllowCredentials(true);
+        config.setAllowCredentials(false);
         
         //apply to all paths
         UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();

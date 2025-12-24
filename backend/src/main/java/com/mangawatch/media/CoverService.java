@@ -54,13 +54,25 @@ public class CoverService {
     }
     
     private ParsedCover parseCoverUrl(String url) {
-        URI uri = URI.create(url);
+        if (url == null || url.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No cover URL");
+        }
+
+        URI uri;
+        try {
+            uri = URI.create(url);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid cover URL");
+        }
+
         String[] parts = uri.getPath().split("/");
 
-        String dexId = parts[2];
-        String fileName = parts[3];
+        // Expected: /covers/{dexId}/{fileName}
+        if (parts.length < 4) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Malformed cover path");
+        }
 
-        return new ParsedCover(dexId, fileName);
+        return new ParsedCover(parts[2], parts[3]);
     }
     
     public ResponseEntity<byte[]> getCoverByMangaId(long mangaId) {
@@ -113,6 +125,7 @@ public class CoverService {
                     .body(cached.data);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }

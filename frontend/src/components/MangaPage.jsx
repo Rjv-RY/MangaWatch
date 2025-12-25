@@ -149,7 +149,11 @@ export default function MangaPage({ basePath = "/discover" }) {
             <div className="flex flex-col md:flex-row gap-6 mb-6">
               <div className="flex-shrink-0">
                 <img
-                  src={manga.coverUrl || "/placeholder.svg"}
+                  src={
+                    manga.coverUrl
+                      ? `${API_BASE}/api/covers/${manga.id}`
+                      : "/placeholder.svg"
+                  }
                   alt={manga.title}
                   className="w-full md:w-64 h-auto rounded-lg shadow-lg border border-border object-cover"
                 />

@@ -176,10 +176,15 @@ export default function Library() {
             >
               <div className="aspect-[4/5] overflow-hidden">
                 <img
-                  src={item.coverUrl || "/placeholder.svg"}
+                  src={
+                    item.coverUrl
+                      ? `${API_BASE}/api/covers/${item.id}`
+                      : "/placeholder.svg"
+                  }
                   alt={item.title}
                   className="h-full w-full object-cover transition-transform hover:scale-110"
                 />
+
                 {/*remove btn */}
                 <button
                   onClick={() => removeTitle(item.id)}

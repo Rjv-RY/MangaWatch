@@ -1,5 +1,7 @@
 package com.mangawatch.media;
 
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +13,14 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.mangawatch.model.Manga;
 import com.mangawatch.repository.MangaRepository;
 
+import reactor.core.publisher.Flux;
+
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class CoverService {
@@ -42,7 +48,7 @@ public class CoverService {
         this.mangaRepository = mangaRepository;
     }
     
-    private ResponseEntity<byte[]> getCover(String dexId, String fileName) {
+    private ResponseEntity<Flux<DataBuffer>> getCover(String dexId, String fileName) {
         if (!isValid(dexId, fileName)) {
             return ResponseEntity.badRequest().build();
         }
@@ -52,14 +58,17 @@ public class CoverService {
         // Check cache
         CachedCover cached = cache.getIfPresent(cacheKey);
         if (cached != null) {
+            DataBuffer buffer =
+                    new DefaultDataBufferFactory().wrap(cached.data);
+
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(cached.contentType))
                     .header(HttpHeaders.CACHE_CONTROL, "public, max-age=86400")
-                    .body(cached.data);
+                    .body(Flux.just(buffer));
         }
 
         // Cache miss → fetch
-        return fetchAndCache(dexId, fileName, cacheKey);
+        return streamCover(dexId, fileName, cacheKey);
     }
     
     private ParsedCover parseCoverUrl(String url) {
@@ -84,7 +93,7 @@ public class CoverService {
         return new ParsedCover(parts[2], parts[3]);
     }
     
-    public ResponseEntity<byte[]> getCoverByMangaId(long mangaId) {
+    public ResponseEntity<Flux<DataBuffer>> getCoverByMangaId(long mangaId) {
 
         // 1. Lookup manga
         Manga manga = mangaRepository.findById(mangaId)
@@ -97,46 +106,66 @@ public class CoverService {
         return getCover(cover.dexId(), cover.fileName());
     }
     
-    private ResponseEntity<byte[]> fetchAndCache(
+    //heavy, testing changes to streamCover
+    public ResponseEntity<Flux<DataBuffer>> streamCover(
             String dexId,
             String fileName,
             String cacheKey
     ) {
-        try {
-            ResponseEntity<byte[]> response = webClient
-                    .get()
-                    .uri("/covers/{dexId}/{fileName}", dexId, fileName)
-                    .accept(MediaType.ALL)
-                    .retrieve()
-                    .toEntity(byte[].class)
-                    .block(Duration.ofSeconds(15));
-
-            if (response == null || response.getBody() == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            String contentType = response.getHeaders().getContentType() != null
-                    ? response.getHeaders().getContentType().toString()
-                    : inferContentType(fileName);
-            
-            System.out.println("Cover filename = " + fileName);
-
-            CachedCover cached = new CachedCover(
-                    response.getBody(),
-                    contentType
-            );
-
-            cache.put(cacheKey, cached);
+    	
+        if (!isValid(dexId, fileName)) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        //hits cache, serves from memory as a stream
+        CachedCover cached = cache.getIfPresent(cacheKey);
+        if (cached != null) {
+            DataBuffer buffer = new DefaultDataBufferFactory().wrap(cached.data);
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
+                    .contentType(MediaType.parseMediaType(cached.contentType))
                     .header(HttpHeaders.CACHE_CONTROL, "public, max-age=86400")
-                    .body(cached.data);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
+                    .body(Flux.just(buffer));
         }
+        
+        //in case cache misses, streams from dex
+        Flux<DataBuffer> upstream = webClient
+                .get()
+                .uri("/covers/{dexId}/{fileName}", dexId, fileName)
+                .accept(MediaType.ALL)
+                .retrieve()
+                .bodyToFlux(DataBuffer.class);
+        
+        //bounded cache collectr, optional
+        ByteArrayOutputStream collector = new ByteArrayOutputStream();
+        AtomicInteger totalBytes = new AtomicInteger(0);
+        int MAX_CACHEABLE = 2 * 1024 * 1024; //2mb
+    	
+        Flux<DataBuffer> tee = upstream.doOnNext(buffer -> {
+            int readable = buffer.readableByteCount();
+            int nextSize = totalBytes.addAndGet(readable);
+
+            if (nextSize <= MAX_CACHEABLE) {
+                byte[] chunk = new byte[readable];
+                buffer.read(chunk);
+                collector.writeBytes(chunk);
+            }
+        }).doOnComplete(() -> {
+            if (totalBytes.get() <= MAX_CACHEABLE) {
+                cache.put(
+                        cacheKey,
+                        new CachedCover(
+                                collector.toByteArray(),
+                                inferContentType(fileName)
+                        )
+                );
+            }
+        });
+        
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(inferContentType(fileName)))
+                .header(HttpHeaders.CACHE_CONTROL, "public, max-age=86400")
+                .body(tee);
     }
     
     private String inferContentType(String fileName) {

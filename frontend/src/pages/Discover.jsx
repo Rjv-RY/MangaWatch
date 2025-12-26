@@ -203,12 +203,16 @@ export default function Discover() {
                     addToLibrary(item);
                   }
                 }}
-                className={`absolute top-2 right-2 rounded-full p-1 shadow-md transition-colors
-    ${
-      isInLibrary(item.id)
-        ? "bg-red-500 text-white hover:bg-red-600"
-        : " text-white"
-    }`}
+                className={`
+              absolute top-2 right-2
+              rounded-full p-2
+              bg-black/60 backdrop-blur-sm
+              text-white
+              shadow-md
+              transition
+              hover:bg-black/80
+              ${isInLibrary(item.id) ? "ring-2 ring-destructive" : ""}
+            `}
               >
                 {isInLibrary(item.id) ? (
                   <X className="h-4 w-4" />

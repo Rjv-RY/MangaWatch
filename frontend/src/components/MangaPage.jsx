@@ -14,6 +14,23 @@ export default function MangaPage({ basePath = "/discover" }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  //fixing background scroll shenanigans
+  useEffect(() => {
+    const scrollY = window.scrollY;
+
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+
+      window.scrollTo(0, scrollY);
+    };
+  }, []);
+
   const isInLibrary = manga
     ? library.some((item) => item.id === manga.id)
     : false;
@@ -109,7 +126,7 @@ export default function MangaPage({ basePath = "/discover" }) {
       onClick={handleClose}
     >
       <div
-        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-background/90 rounded-lg shadow-2xl border border-border m-4"
+        className="relative w-full max-w-5xl max-h-[100svh] overflow-y-auto bg-background/90 rounded-lg shadow-2xl border border-border m-4"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}

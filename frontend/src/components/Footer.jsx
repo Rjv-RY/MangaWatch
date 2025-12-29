@@ -1,11 +1,3 @@
-// export default function Footer() {
-//   return (
-//     <footer className="bg-gray-800 text-white text-sm p-4 text-center">
-//       <p>&copy; {new Date().getFullYear()} MangaWatch. All rights reserved.</p>
-//     </footer>
-//   );
-// }
-
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -34,20 +26,20 @@ export default function Footer() {
             </Link>
 
             {/* Info */}
-            <a href="#about" className="hover:text-primary">
+            <Link to="/about" className="hover:text-primary">
               About
-            </a>
-            <a href="#contact" className="hover:text-primary">
+            </Link>
+            <Link to="/contact" className="hover:text-primary">
               Contact
-            </a>
+            </Link>
 
             {/* Legal */}
-            <a href="#privacy" className="hover:text-primary">
+            <Link to="/privacy" className="hover:text-primary">
               Privacy
-            </a>
-            <a href="#terms" className="hover:text-primary">
+            </Link>
+            {/* <a href="#terms" className="hover:text-primary">
               Terms
-            </a>
+            </a> */}
           </nav>
         </div>
       </div>

@@ -2,7 +2,6 @@ package com.mangawatch.media;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,8 +12,6 @@ import com.mangawatch.repository.MangaRepository;
 
 import java.net.URI;
 import java.time.Duration;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class CoverService {

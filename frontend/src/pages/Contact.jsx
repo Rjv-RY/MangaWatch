@@ -20,7 +20,7 @@ export default function Contact() {
             Email:{" "}
             <a
               href="mailto:rajivryadav18@gmail.com"
-              className="text-text-chart-3 hover:underline underline-offset-2"
+              className="text-chart-3 hover:underline underline-offset-2"
             >
               Email Support
             </a>

@@ -4,7 +4,7 @@
 
 Full-stack manga tracking application inspired by Letterboxd/MAL.
 Choose from a massive selection of Mangas in the Discover section, pick what titles you like and add them to your library.
-Track your progress of that title in the Library.
+Track your progress of that title in the Library. It's deployed at "https://manga-watch.vercel.app/".
 
 ## Structure
 

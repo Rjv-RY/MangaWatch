@@ -94,7 +94,7 @@ _(More Screenshots in [Frontend README](./frontend/README.md))_
 
 ## Acknowledgments
 
-Built with the [MangaDex API](https://api.mangadex.org/).
+Built using data from the [MangaDex API](https://api.mangadex.org/).
 
 ## Possible Future Features
 - User ratings and reviews

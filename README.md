@@ -29,7 +29,7 @@ Track your progress of that title in the Library.
 
 ### Prerequisites
 - Node.js 18+
-- Java 21+
+- Java 17
 - Docker Desktop
 - MangaDex API credentials ([create here](https://api.mangadex.org/docs/02-authentication/personal-clients/))
 

@@ -69,7 +69,7 @@ MangaWatch/
 
 ![Mobile View](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/MobileView.png)
 
-_(More Screenshots in Frontend ReadMe)_
+_(More Screenshots in [Frontend README](./frontend/README.md))_
 
 ## Deployment
 

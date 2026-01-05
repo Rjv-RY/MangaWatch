@@ -4,74 +4,61 @@
 
 Full-stack manga tracking application inspired by Letterboxd/MAL.
 Choose from a massive selection of Mangas in the Discover section, pick what titles you like and add them to your library.
-Track your progress of that title in the Library. It's deployed at "https://manga-watch.vercel.app/".
+Track your progress of that title in the Library.
 
-## Structure
-
-The Repo/Directory is conveniently divided into /frontend and /backend for their respective roles.
-
-## Project Highlights
-
-- Full-stack application with React frontend and Spring Boot backend
-- JWT-based authentication and protected routes
-- Handles ~87,000 manga entries imported from a third-party API
-- Batch import system with resume-from-cursor support
-- Pagination, filtering, and sorting at database level
-- PostgreSQL with Flyway migrations
-- Dockerized database setup
-
-## Tech Stack
-
-Frontend:
-
-- React (Vite)
-- Tailwind CSS
-- Axios
-- Lucide React
-
-Backend:
-
-- Java 21
-- Spring Boot
-- Spring Data JPA
-- JWT Authentication
-- Flyway
-
-Database:
-
-- PostgreSQL (Docker)
-
-External APIs:
-
-- MangaDex API
+**Live Demo:** https://manga-watch.vercel.app/  
+**Note:** Backend cold starts may take ~50 seconds on first request (Render free tier).
 
 ## Features
 
-In-brief:
+- **Massive Catalog:** Browse 87,000+ manga titles imported from MangaDex
+- **Personal Library:** Track reading status (Reading, Plan to Read, Completed)
+- **Advanced Search:** Filter by genre, sort by title/author/date, paginated results
+- **Secure Authentication:** JWT-based auth with protected routes
+- **Responsive Design:** Mobile-friendly UI with light/dark mode
+- **Resume-Safe Imports:** Batch import system with cursor-based resumption
 
-- Browse and search a large manga catalog
-- Pagination, filtering, and sorting
-- Personal library with reading status
-- Secure authentication (JWT)
-- Light/Dark mode
-- Mobile-responsive UI
+## Tech Stack
 
-Extended Look for those with time:
+**Frontend:** React (Vite), Tailwind CSS, Axios  
+**Backend:** Spring Boot, Spring Data JPA, JWT Authentication, Flyway  
+**Database:** PostgreSQL (Docker)  
+**External API:** MangaDex API
 
-The application has 3 main pages, Home (A page with popular genres and a search bar), Discover and Library. It also has Light and Dark modes, and supports/works on Mobile as well.
+## Quick Start
 
-Discover is the page which houses Manga entries (displays by Pagination), filters, genres (All genres form all mangas, none left behind), sorting (Alphabetically, by Author, by Date) etc.
-The titles are fetched from the DB which has around 87,000+ individual manga titles. They've been imported sequentially from MangaDex's database using its API.
-So it has a wide variety ot titles and you'll 99/100 times find what you're looking for.
+### Prerequisites
+- Node.js 18+
+- Java 21+
+- Docker Desktop
+- MangaDex API credentials ([create here](https://api.mangadex.org/docs/02-authentication/personal-clients/))
 
-Library is your personal list/storage of titles you are reading, plan to read or have read before, it's protected so you must log in to access the Library functionality.
-Creating an account is simple, just a Mail ID, Username and Password. The password is hashed of course, and the JSON Web Token is issued each time you login.
-For security, the routes require a valid Token to add or delete entries as well so ONLY you can mess with your Library.
+### 1. Clone and Setup Frontend
+```bash
+git clone https://github.com/Rjv-RY/MangaWatch
+cd MangaWatch/frontend
+npm install
+npm run dev
+```
 
-The application has fluent communication between frontend and backend. It may load some things optimistically but you'll get valid error logs if something breaks or fails.
-The backend has defined routes for importing the MangaDex database, it imports around 10,000 titles at a time, and updates those what already exist to accomodate for changes in status or description.
-All the Data be it the User, their Library or the Manga Entries, are stored in the PostgreSQL database running in a Docker container.
+### 2. Setup Backend
 
+See [Backend README](./backend/README.md) for detailed instructions including:
+- Database container setup
+- Environment variable configuration
+- MangaDex API integration
+- Import process
+
+## Project Structure
+```
+MangaWatch/
+├── frontend/          # React application
+│   ├── src/
+│   └── README.md
+└── backend/           # Spring Boot API
+    ├── src/
+    └── README.md      # Detailed backend setup
+```
 ## Snippets
 
 **PC View**
@@ -84,48 +71,19 @@ All the Data be it the User, their Library or the Manga Entries, are stored in t
 
 _(More Screenshots in Frontend ReadMe)_
 
-## Instrcutions To Run
+## Deployment
 
-Disclaimer: This needs you to run the Container, Backend and Frontend together to actually make the application work.
-
-Clone the Application
-
-```bash
-git clone https://github.com/Rjv-RY/MangaWatch
-```
-
-CD Into the application
-
-```
-cd MangaWatch
-```
-
-### Frontend Setup
-
-1. Go into the frontend directory
-
-```
-cd frontend
-```
-
-2. Install Dependencies
-
-```
-npm install
-```
-
-3. Run the Frontend
-
-```
-npm run dev
-```
+- **Frontend:** Vercel
+- **Backend:** Render (free tier)
+- **Database:** Render PostgreSQL
 
 ### Backend Setup continues in the Backend's Readme due to its complicated nature.
 
-## Special Thanks
+## Acknowledgments
 
-Special Thanks to the MangaDex API and its authors. It's great to work with if a little daunting in the start. The imports were smooth once I realized it's limitations and quirks.
+Built with the [MangaDex API](https://api.mangadex.org/).
 
 ## Possible Future Features
-
-I plan to add Ratings and Reviews/Comments like Letterboxd has, to the application. But it's still a maybe.
+- User ratings and reviews
+- Reading lists and recommendations
+- Social features (follow users, share libraries)

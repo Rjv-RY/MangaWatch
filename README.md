@@ -43,11 +43,24 @@ npm run dev
 
 ### 2. Setup Backend
 
-See [Backend README](./backend/README.md) for detailed instructions including:
-- Database container setup
-- Environment variable configuration
-- MangaDex API integration
-- Import process
+**Prerequisites:**
+- Docker Desktop
+- MangaDex API credentials (optional, only for importing data)
+
+**Quick Start:**
+```bash
+cd backend
+
+# Option 1: Docker Compose (recommended)
+docker-compose up --build
+
+# Option 2: Manual Docker
+# See backend/README.md for detailed instructions
+```
+
+Backend runs on `http://localhost:8080`
+
+For detailed setup, importing manga data, and troubleshooting, see [Backend README](./backend/README.md).
 
 ## Project Structure
 ```

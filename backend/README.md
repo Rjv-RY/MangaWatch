@@ -1,77 +1,96 @@
 # MangaWatch:Backend
 
-REST API built with Spring Boot that powers MangaWatch.
-Responsible for authentication, manga catalog management, and batch importing data from the MangaDex API.
+Containerized Spring Boot REST API for manga tracking and library management.
 
-## Backend Responsibilities
+## Tech Stack
 
-- User authentication and authorization (JWT)
-- CRUD operations for user libraries
-- Batch importing manga data from MangaDex API
-- Resume-safe import mechanism using cursors
-- Pagination and filtering for large datasets
-- Database migrations via Flyway
+- **Java 17** (Eclipse Temurin)
+- **Spring Boot 3.x** with Spring Data JPA
+- **PostgreSQL 16**
+- **Docker** (multi-stage build with Maven + JRE)
+- **Flyway** for database migrations
+- **JWT** authentication
 
-## Quick Start (TL;DR)
+## Prerequisites
 
-1. Install Java 21+ and Docker Desktop.
-2. Run the Postgres container:
-   docker run --name manga-postgres -e POSTGRES_USER=mangauser01 \
-   -e POSTGRES_PASSWORD=secretPW -e POSTGRES_DB=mangadbpg \
-   -p 5432:5432 -d postgres:16
+- Docker Desktop
+- MangaDex API credentials (optional - only needed for importing manga data)
 
-3. Set environment variables for DB and Mangadex API.
-4. Start the backend (via IDE or `mvn spring-boot:run`).
-5. Initialize import:
-   GET ${API_BASE}/admin/import/start
-6. View imported manga:
-   GET ${API_BASE}/api/manga
+## Quick Start (Docker Desktop recommended for easier access)
 
-## A Primer/What You'll need
+### 1. Start PostgreSQL Container
+```bash
+docker run --name mg-postgres \
+  -e POSTGRES_USER=mgusr01 \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=mgdbpg \
+  -p 5432:5432 \
+  -d postgres:16
+```
 
-The Backend's the core of MangaWatch. It includes a batch import system and requires a few setup steps, which are documented below.
+### 2. Build Backend Image
+```bash
+cd backend
+docker build -t mangawatch-backend .
+```
 
-- Java installed(I use version 21.0.5).
-- An IDE you can use (I use Eclipse because Java but VSCode would work fine).
-- Docker Desktop to run a container for the PostgreSql.
-- A Mangadex account with access to their API (free, works well)
-- I use Maven here, pom.xml will do the dependency management.
-- Knowhow of a tool like Postman or Curl to send requests to Mangadex(I used Postman)
+### 3. Run Backend Container
+```bash
+docker run --name manga-backend \
+  -p 8080:8080 \
+  -e DB_HOST=host.docker.internal \
+  -e DB_PORT=5432 \
+  -e DB_NAME=mgdbpg \
+  -e DB_USER=mgusr01 \
+  -e DB_PASS=password \
+  -e JWT_SECRET=your-secret-key-minimum-32-characters-long \
+  -d mangawatch-backend
+```
 
-Note: There are a few old/extra files that I plan to eventually delete. They either start with 'Old' or are commented out entirely.
+**Note:** `host.docker.internal` allows the backend container to reach PostgreSQL on your host machine. On Linux, use `--network host` or create a Docker network instead.
 
-## Database Setup
+### 4. Verify It's Running
+```bash
+# Check container logs
+docker logs manga-backend
 
-This may get a bit tricky depending on what kind of errors you encounter but this is how it went for me/how I did it.
+# Test the API
+curl/postman http://localhost:8080/api/manga/stats
+```
 
-- Install Docker Desktop, do the initial setup. Refer to its walkthroughs, or just jump in and figure it out along the way.
-- Run the command: `docker run --name manga-postgres \
--e POSTGRES_USER=mangauser01 \
--e POSTGRES_PASSWORD=secretPW \
--e POSTGRES_DB=mangadbpg \
--p 5432:5432 \
--d postgres:16` (these can be anything you like so change accordingly, same for env variables)
-- With the container created, run it in Docker desktop, and it SHOULD run without errors.
-- You can additionally run `docker inspect manga-postgres` in your console to see the config details.
-- Now, open the backend directory and add these to your environment variables:-
-  ```
-  Variables :  Values
-  DB_HOST   :  localhost
-  DB_NAME   :  mangadbpg
-  DB_USER   :  mangauser01
-  DB_PASS   :  secretPW
-  DB_POST   :  5432
-  ```
-- Attempt to run the application (MangawatchApplication.java) via IDE or `mvn spring-boot:run`.
-- If everything went well your container should be connected to your backend application without errors.
+---
 
-### Troubleshooting: Timezone Errors
+## Environment Variables
 
-If you get a timezone mismatch or LocalDateTime-related error. Add in the run config that your timezone is explicitly UTC/Etc, I added this in VM Arguments `-Duser.timezone=Etc/UTC` and it worked. It may differ depending on your VM or Run config.
+### Required Variables
+```bash
+DB_HOST=host.docker.internal    # PostgreSQL host
+DB_PORT=5432                     # PostgreSQL port
+DB_NAME=mangadbpg                # Database name
+DB_USER=mangauser01              # Database user
+DB_PASS=secretPW                 # Database password
+JWT_SECRET=your-secret-here      # JWT signing key (32+ chars)
+```
+
+### Optional Variables (for importing manga data)
+```bash
+MANGADEX_CLIENT_ID=your-client-id
+MANGADEX_CLIENT_SECRET=your-client-secret
+MANGADEX_USERNAME=your-username
+MANGADEX_PASSWORD=your-password
+```
+
+**To get MangaDex credentials:** Create a personal client at https://api.mangadex.org/docs/02-authentication/personal-clients/
+
+### Setting Environment Variables
+
+**Option 1: Pass directly to `docker run`** (shown in Quick Start)
+
+**Option 2: IDE Run Configuration** (IntelliJ/Eclipse environment variables)
 
 ## Using the Mangadex API
 
-Naturally you'll want some entries in your application to test against yes? And you would not want to add all entries manually.
+The import system fetches manga from MangaDex in batches, storing them in your local database.
 
 - First, create a Mangadex account and log into it
 - Then, go to this url: https://api.mangadex.org/docs/02-authentication/personal-clients/.
@@ -80,7 +99,7 @@ Naturally you'll want some entries in your application to test against yes? And 
 
 ```
 Variables :  Values
-MANGADEX_CLIENT_ID : personal-client-8fn736h-6767-931o-g874-kn48ira021s109-n792a54l
+MANGADEX_CLIENT_ID : personal-client-8fn736h-6767-931o-g874-kn48ira021s109-xyzxyz
 MANGADEX_CLIENT_SECRET : E3knHpCViDJZ84UPXN6IlvsdcRm48x4XF
 MANGADEX_PASSWORD : yourpassword
 MANGADEX_USERNAME : yourusername
@@ -88,53 +107,117 @@ MANGADEX_USERNAME : yourusername
 
 (use a unique secret, client id, username and password)
 
-- Restart the backend here, or run it if its not already running, same for container.
-- Now, before import ensure you have a stable internet connection, and do not stop the backend app or the docker container until the import is complete.
-- The methods/functions for importing the DB (and the subsequent transformation) are already in the code.
-- Here is where you'll need curl or postman (anything really) to send requests to the mangadex database.
-- Refer to the code in the com.mangawatch.importer directory if needed.
-- Here's the endpoints you'll call/need here:-
+### Prerequisites
+- MangaDex API credentials set in environment variables
+- Backend and database running
+- Stable internet connection
 
-  Start Import : `POST ${API_BASE}/admin/import/start`
+### Import Process
 
-  Check Status : `GET ${API_BASE}/admin/import/status`
+**1. Start import:**
+```bash
+curl -X POST http://localhost:8080/admin/import/start
+```
 
-  Resume Import : `POST ${API_BASE}/admin/import/resume?cursor=2018-08-26T07:54:35` (timestamp left here for reference/structure)
+**2. Check status:**
+```bash
+curl http://localhost:8080/admin/import/status
+```
+Response shows:
+- Total entries imported
+- Last processed timestamp (cursor)
+- Import state
 
-- The mangadex API allows only somewhere around 9000 - 10000 entries to be fetched at once (limiting). So your import will stop somehwere around that.
-- Call the status endpoint, it will show you the timestamp of the last entry you called. Resume import entries from that timestamp.
-- To do the above, in the resume request, replace the timestamp `POST resume?cursor=2018-08-26T07:54:35` with `POST resume?cursor=timestamp_from_status` and then send it.
-- Each batch returns ~9000 entries. Resume until you reach the desired count.
-- If the import worked, you can call `GET ${API_BASE}/api/manga` to check for some imformation.
-- The `GET ${API_BASE}/admin/import/status` endpoint will tell you the last import's timestamp and number of entries the db has.
+**3. Resume import (if needed):**
 
-## Bringing it Together
+The import automatically stops after each batch (~9,000-10,000 entries due to MangaDex API limits).
+```bash
+# Get cursor from status endpoint, then:
+curl -X POST "http://localhost:8080/admin/import/resume?cursor=2024-01-15T10:30:00"
+```
 
-### 1. Start dependencies
+**4. Repeat until desired count reached**
 
-- Ensure Docker Desktop is running.
-- Ensure the `manga-postgres` container is running.
-- Confirm all required environment variables are set.
+To reach 87,000+ entries, you'll need to resume ~9 times.
 
-### 2. Start the backend
+**Note:** The `GET ${API_BASE}/admin/import/status` endpoint will tell you the last import's timestamp and number of entries the db has.
 
-- Run via your IDE (MangawatchApplication.java), or use:
-  mvn spring-boot:run
-- The backend starts on port 8080.
+### Import Configuration
 
-### 3. Verify everything works
+Defined in `application.properties`:
+```properties
+mangadex.import.batch-size=100       # Manga per API request
+mangadex.import.rate-limit-ms=250    # Delay between requests
+mangadex.import.max-retries=3        # Retry failed requests
+```
 
-- Check DB connectivity in logs (Flyway migrations should succeed).
-- Check Manga endpoint:
-  ${API_BASE}/api/manga
-- Check import status:
-  ${API_BASE}/admin/import/status
+---
+## Deployment
 
-### Finally, start the frontend in your IDE to see that the db populates the pages.
+### Testing Dockerfile Locally
+```bash
+docker build -t mangawatch-backend .
+docker run -p 8080:8080 [environment variables] mangawatch-backend
+```
 
-## Design Notes
+### On Render
 
-- Batch imports are limited by MangaDex API constraints (~9–10k entries per request)
-- Import state is tracked using timestamps to allow resuming imports safely
-- Authentication uses JWT for stateless API design
-- Database indexing is used to support pagination and filtering at scale
+The dockerfile is used to deploy on Render, link to the deployed version with ~9000 entries on the repo and root readme.
+
+## Architecture & Design Notes
+
+### Multi-Stage Docker Build
+- **Stage 1:** Maven build with full JDK (larger image)
+- **Stage 2:** Runtime with JRE only (smaller, faster image)
+- **Result:** ~60% reduction in final image size
+
+### Database Migrations
+- **Flyway** handles schema versioning
+- Migrations run automatically on startup
+- Baseline migration for existing databases
+
+### Performance Optimizations
+- N+1 query prevention with JOIN FETCH
+- Database indexes on frequently queried fields
+- Connection pooling for database access
+
+### Security
+- JWT token-based authentication
+- Password hashing with BCrypt
+- CORS configuration for frontend
+- Input validation and sanitization
+
+---
+
+## Troubleshooting
+
+### Can't connect to database
+**If using individual containers:**
+- Backend must use `DB_HOST=host.docker.internal`
+- Or create Docker network: `docker network create manga-net`
+
+### Import fails after ~9K entries
+This is expected! MangaDex API limits batch size. Use the resume endpoint.
+
+### JWT token errors
+- Ensure `JWT_SECRET` is at least 32 characters (ALWAYS SIGN JWTS)
+- Token expires after 1 hour (configurable in application.properties)
+
+### Port already in use
+```bash
+# Kill process on port 8080
+lsof -ti:8080 | xargs kill -9
+
+# Or use different port
+docker run -p 9090:8080 ...
+```
+
+## Design/Dev Notes
+
+### Java 17 instead of 21
+
+Switched from Java 21 to Java 17 for deployment compatibility with Render's Docker environment at the time of initial deployment (late 2025). The application can likely be upgraded to Java 21 in the future, but Java 17 provides stable compatibility with all current dependencies and deployment infrastructure.
+
+### Endpoints for future use
+- `/api/auth/me` - Planned for profile management
+- `/api/manga/dex/{dexId}` - Direct MangaDex ID lookup (internal use)

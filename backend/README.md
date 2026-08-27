@@ -71,7 +71,9 @@ Tests are still a work in progress. Helped me realize some real holes in the aut
 
 The application-test.properties file is attached. It uses H2 to simulate a Postgres-esque-environment.
 
-````# breaks auto after each test run
+```
+# breaks auto after each test run
+
 # used when @ActiveProfiles("test") is...well active
 
 # ---- H2 stuff ----
@@ -82,22 +84,30 @@ spring.datasource.username=sa
 spring.datasource.password=
 
 # ---- Hibernate-ing ----
+
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.show-sql=false
 
 # ---- Disable flyway to avoid potential issues ---
+
 # because they weren't written with H2 and testing in mind
+
 spring.flyway.enabled=false
 
 # --- JWT config that are independent of the real thing ---
+
 jwt.secret=this-is-a-test-only-secretsecret-key-and-i-dont-like-writing-tests
 jwt.expiration-ms=3600000
-jwt.issuer=mangawatch-test```
+jwt.issuer=mangawatch-test
+```
 
 ### Troubleshooting: Timezone Errors
 
+If you get a timezone mismatch or LocalDateTime-related error. Add in the run config that your timezone is explicitly UTC/Etc, I added this in VM Arguments `-Duser.timezone=Etc/UTC` and it worked. It may differ depending on your VM or Run config. I'll have to raise this issue/error to the relevant library eventually else I forget.
+
 ### Required Variables
+
 ```bash
 DB_HOST=host.docker.internal    # PostgreSQL host
 DB_PORT=5432                     # PostgreSQL port
@@ -108,6 +118,7 @@ JWT_SECRET=your-secret-here      # JWT signing key (32+ chars)
 ```
 
 ### Optional Variables (for importing manga data)
+
 ```bash
 MANGADEX_CLIENT_ID=your-client-id
 MANGADEX_CLIENT_SECRET=your-client-secret
@@ -144,6 +155,7 @@ MANGADEX_USERNAME : yourusername
 (use a unique secret, client id, username and password)
 
 ### Prerequisites
+
 - MangaDex API credentials set in environment variables
 - Backend and database running
 - Stable internet connection
@@ -151,15 +163,19 @@ MANGADEX_USERNAME : yourusername
 ### Import Process
 
 **1. Start import:**
+
 ```bash
 curl -X POST http://localhost:8080/admin/import/start
 ```
 
 **2. Check status:**
+
 ```bash
 curl http://localhost:8080/admin/import/status
 ```
+
 Response shows:
+
 - Total entries imported
 - Last processed timestamp (cursor)
 - Import state
@@ -167,6 +183,7 @@ Response shows:
 **3. Resume import (if needed):**
 
 The import automatically stops after each batch (~9,000-10,000 entries due to MangaDex API limits).
+
 ```bash
 # Get cursor from status endpoint, then:
 curl -X POST "http://localhost:8080/admin/import/resume?cursor=2024-01-15T10:30:00"
@@ -181,6 +198,7 @@ To reach 87,000+ entries, you'll need to resume ~9 times.
 ### Import Configuration
 
 Defined in `application.properties`:
+
 ```properties
 mangadex.import.batch-size=100       # Manga per API request
 mangadex.import.rate-limit-ms=250    # Delay between requests
@@ -188,9 +206,11 @@ mangadex.import.max-retries=3        # Retry failed requests
 ```
 
 ---
+
 ## Deployment
 
 ### Testing Dockerfile Locally
+
 ```bash
 docker build -t mangawatch-backend .
 docker run -p 8080:8080 [environment variables] mangawatch-backend
@@ -203,21 +223,25 @@ The dockerfile is used to deploy on Render, link to the deployed version with ~9
 ## Architecture & Design Notes
 
 ### Multi-Stage Docker Build
+
 - **Stage 1:** Maven build with full JDK (larger image)
 - **Stage 2:** Runtime with JRE only (smaller, faster image)
 - **Result:** ~60% reduction in final image size
 
 ### Database Migrations
+
 - **Flyway** handles schema versioning
 - Migrations run automatically on startup
 - Baseline migration for existing databases
 
 ### Performance Optimizations
+
 - N+1 query prevention with JOIN FETCH
 - Database indexes on frequently queried fields
 - Connection pooling for database access
 
 ### Security
+
 - JWT token-based authentication
 - Password hashing with BCrypt
 - CORS configuration for frontend
@@ -228,18 +252,23 @@ The dockerfile is used to deploy on Render, link to the deployed version with ~9
 ## Troubleshooting
 
 ### Can't connect to database
+
 **If using individual containers:**
+
 - Backend must use `DB_HOST=host.docker.internal`
 - Or create Docker network: `docker network create manga-net`
 
 ### Import fails after ~9K entries
+
 This is expected! MangaDex API limits batch size. Use the resume endpoint.
 
 ### JWT token errors
+
 - Ensure `JWT_SECRET` is at least 32 characters (ALWAYS SIGN JWTS)
 - Token expires after 1 hour (configurable in application.properties)
 
 ### Port already in use
+
 ```bash
 # Kill process on port 8080
 lsof -ti:8080 | xargs kill -9
@@ -255,6 +284,10 @@ docker run -p 9090:8080 ...
 Switched from Java 21 to Java 17 for deployment compatibility with Render's Docker environment at the time of initial deployment (late 2025). The application can likely be upgraded to Java 21 in the future, but Java 17 provides stable compatibility with all current dependencies and deployment infrastructure.
 
 ### Endpoints for future use
+
 - `/api/auth/me` - Planned for profile management
 - `/api/manga/dex/{dexId}` - Direct MangaDex ID lookup (internal use)
-````
+
+```
+
+```

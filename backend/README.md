@@ -65,6 +65,37 @@ This may get a bit tricky depending on what kind of errors you encounter but thi
 - Attempt to run the application (MangawatchApplication.java) via IDE or `mvn spring-boot:run`.
 - If everything went well your container should be connected to your backend application without errors.
 
+### Testing
+
+Some of the more vulnerable parts of the backend I test with mockito, assertj and junit5.
+Tests are still a work in progress. Helped me realize some real holes in the auth and library logic.
+
+The application-test.properties file is attached. It uses H2 to simulate a Postgres-esque-environment.
+
+````# breaks auto after each test run
+# used when @ActiveProfiles("test") is...well active
+
+# ---- H2 stuff ----
+
+spring.datasource.url=jdbc:h2:mem:mangawatch_test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# ---- Hibernate-ing ----
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=false
+
+# ---- Disable flyway to avoid potential issues ---
+# because they weren't written with H2 and testing in mind
+spring.flyway.enabled=false
+
+# --- JWT config that are independent of the real thing ---
+jwt.secret=this-is-a-test-only-secretsecret-key-and-i-dont-like-writing-tests
+jwt.expiration-ms=3600000
+jwt.issuer=mangawatch-test```
+
 ### Troubleshooting: Timezone Errors
 
 If you get a timezone mismatch or LocalDateTime-related error. Add in the run config that your timezone is explicitly UTC/Etc, I added this in VM Arguments `-Duser.timezone=Etc/UTC` and it worked. It may differ depending on your VM or Run config.
@@ -78,12 +109,14 @@ Naturally you'll want some entries in your application to test against yes? And 
 - Read it through, it will explain how to create a personal client and use the API. You may or may not need it but its good to have.
 - After creating a personal client, note down and add these to the environment variables:-
 
-```
-Variables :  Values
+````
+
+Variables : Values
 MANGADEX_CLIENT_ID : personal-client-8fn736h-6767-931o-g874-kn48ira021s109-n792a54l
 MANGADEX_CLIENT_SECRET : E3knHpCViDJZ84UPXN6IlvsdcRm48x4XF
 MANGADEX_PASSWORD : yourpassword
 MANGADEX_USERNAME : yourusername
+
 ```
 
 (use a unique secret, client id, username and password)
@@ -138,3 +171,4 @@ MANGADEX_USERNAME : yourusername
 - Import state is tracked using timestamps to allow resuming imports safely
 - Authentication uses JWT for stateless API design
 - Database indexing is used to support pagination and filtering at scale
+```

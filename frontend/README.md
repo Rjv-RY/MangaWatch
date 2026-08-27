@@ -3,6 +3,7 @@
 Written in React and Tailwind, uses Lucide React for icons/svgs
 
 ## Pictures of the Frontend:
+
 This page here shows some of the screenshots I took of the app's frontend and its UI.
 
 **Discover Page**
@@ -36,3 +37,7 @@ This page here shows some of the screenshots I took of the app's frontend and it
 **Home Page**
 
 ![Home](https://github.com/Rjv-RY/MangaWatch/blob/main/frontend/src/snipsForGitHub/HomePage.png)
+
+## Testing:
+
+Uses React testing library and Vitest for unit-testing. Run using `npm test`

@@ -51,6 +51,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             	.requestMatchers("/api/covers/**").permitAll()
             	.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            	.requestMatchers("/api/library/**").authenticated()
                 .requestMatchers( "/api/**", "/api/manga/**", "/admin/import/**").permitAll() // allow H2
                 .anyRequest().permitAll()                 // protect everything else
             )

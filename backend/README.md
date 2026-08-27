@@ -19,6 +19,7 @@ Containerized Spring Boot REST API for manga tracking and library management.
 ## Quick Start (Docker Desktop recommended for easier access)
 
 ### 1. Start PostgreSQL Container
+
 ```bash
 docker run --name mg-postgres \
   -e POSTGRES_USER=mgusr01 \
@@ -29,12 +30,14 @@ docker run --name mg-postgres \
 ```
 
 ### 2. Build Backend Image
+
 ```bash
 cd backend
 docker build -t mangawatch-backend .
 ```
 
 ### 3. Run Backend Container
+
 ```bash
 docker run --name manga-backend \
   -p 8080:8080 \
@@ -50,6 +53,7 @@ docker run --name manga-backend \
 **Note:** `host.docker.internal` allows the backend container to reach PostgreSQL on your host machine. On Linux, use `--network host` or create a Docker network instead.
 
 ### 4. Verify It's Running
+
 ```bash
 # Check container logs
 docker logs manga-backend
@@ -60,7 +64,6 @@ curl/postman http://localhost:8080/api/manga/stats
 
 ---
 
-<<<<<<< HEAD
 ### Testing
 
 Some of the more vulnerable parts of the backend I test with mockito, assertj and junit5.
@@ -93,9 +96,6 @@ jwt.expiration-ms=3600000
 jwt.issuer=mangawatch-test```
 
 ### Troubleshooting: Timezone Errors
-=======
-## Environment Variables
->>>>>>> 0c2af5ac0c054c65a6d6805366ade350c6f63abe
 
 ### Required Variables
 ```bash
@@ -132,16 +132,9 @@ The import system fetches manga from MangaDex in batches, storing them in your l
 - Read it through, it will explain how to create a personal client and use the API. You may or may not need it but its good to have.
 - After creating a personal client, note down and add these to the environment variables:-
 
-<<<<<<< HEAD
-````
-
-Variables : Values
-MANGADEX_CLIENT_ID : personal-client-8fn736h-6767-931o-g874-kn48ira021s109-n792a54l
-=======
 ```
 Variables :  Values
 MANGADEX_CLIENT_ID : personal-client-8fn736h-6767-931o-g874-kn48ira021s109-xyzxyz
->>>>>>> 0c2af5ac0c054c65a6d6805366ade350c6f63abe
 MANGADEX_CLIENT_SECRET : E3knHpCViDJZ84UPXN6IlvsdcRm48x4XF
 MANGADEX_PASSWORD : yourpassword
 MANGADEX_USERNAME : yourusername
@@ -205,13 +198,6 @@ docker run -p 8080:8080 [environment variables] mangawatch-backend
 
 ### On Render
 
-<<<<<<< HEAD
-- Batch imports are limited by MangaDex API constraints (~9–10k entries per request)
-- Import state is tracked using timestamps to allow resuming imports safely
-- Authentication uses JWT for stateless API design
-- Database indexing is used to support pagination and filtering at scale
-```
-=======
 The dockerfile is used to deploy on Render, link to the deployed version with ~9000 entries on the repo and root readme.
 
 ## Architecture & Design Notes
@@ -271,4 +257,4 @@ Switched from Java 21 to Java 17 for deployment compatibility with Render's Dock
 ### Endpoints for future use
 - `/api/auth/me` - Planned for profile management
 - `/api/manga/dex/{dexId}` - Direct MangaDex ID lookup (internal use)
->>>>>>> 0c2af5ac0c054c65a6d6805366ade350c6f63abe
+````

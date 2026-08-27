@@ -16,6 +16,8 @@ Containerized Spring Boot REST API for manga tracking and library management.
 - Docker Desktop
 - MangaDex API credentials (optional - only needed for importing manga data)
 
+---
+
 ## Quick Start (Docker Desktop recommended for easier access)
 
 ### 1. Start PostgreSQL Container
@@ -133,6 +135,8 @@ MANGADEX_PASSWORD=your-password
 **Option 1: Pass directly to `docker run`** (shown in Quick Start)
 
 **Option 2: IDE Run Configuration** (IntelliJ/Eclipse environment variables)
+
+---
 
 ## Using the Mangadex API
 
@@ -287,7 +291,3 @@ Switched from Java 21 to Java 17 for deployment compatibility with Render's Dock
 
 - `/api/auth/me` - Planned for profile management
 - `/api/manga/dex/{dexId}` - Direct MangaDex ID lookup (internal use)
-
-```
-
-```

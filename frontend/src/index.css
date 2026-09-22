@@ -20,14 +20,20 @@
   --logo: oklch(21% 0.034 264.665); /* Darker gray for logo*/
   --card: oklch(0.96 0 0); /* Light gray for card backgrounds */
   --card-foreground: oklch(0.25 0 0); /* Text on cards */
-  --popover: oklch(1 0 0); /* White for popovers -> Light Cream */
+  --popover: oklch(
+    98.456% 0.0209 103.946
+  ); /* White for popovers -> Light Cream */
   --popover-foreground: oklch(
     0.35 0 0
   ); /* Text for popovers and gray-700/600 */
   --primary: oklch(0.45 0.15 160); /* near-Emerald-800 for primary actions */
-  --primary-foreground: oklch(1 0 0); /* White text on primary */
+  --primary-foreground: oklch(
+    98.456% 0.0209 103.946
+  ); /* White text on primary */
   --secondary: oklch(0.55 0.15 160); /* Lighter emerald for secondary */
-  --secondary-foreground: oklch(1 0 0); /* White text on secondary */
+  --secondary-foreground: oklch(
+    98.456% 0.0209 103.946
+  ); /* Light Cream text on secondary */
   --muted: oklch(98.456% 0.0209 103.946 / 0.856); /* Muted backgrounds */
   --muted-foreground: oklch(22.213% 0.00003 271.152); /* Muted text */
   --accent: oklch(0.55 0.15 160); /* Accent elements */
